@@ -1,5 +1,6 @@
 package si.um.feri.aiv.dao;
 
+import si.um.feri.aiv.vao.Community;
 import si.um.feri.aiv.vao.MSE;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,7 @@ public class MSEMemoryDao implements MSEDAO{
         }
         mseList.add(mse);
     }
+
 
     @Override
     public MSE find(String email) {
@@ -45,6 +47,7 @@ public class MSEMemoryDao implements MSEDAO{
         }
     }
 
+
     @Override
     public void update(MSE updatedMSE) {
         MSE existingMSE = find(updatedMSE.getEmail());
@@ -60,9 +63,12 @@ public class MSEMemoryDao implements MSEDAO{
         }
     }
 
+
     @Override
     public List<MSE> getAll() {
         log.info("Retrieved all MSEs");
         return mseList;
     }
+
+
 }

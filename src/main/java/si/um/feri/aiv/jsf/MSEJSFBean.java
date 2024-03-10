@@ -1,11 +1,14 @@
 package si.um.feri.aiv.jsf;
 import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import si.um.feri.aiv.dao.MSEMemoryDao;
 import si.um.feri.aiv.dao.MSEDAO;
+import si.um.feri.aiv.vao.Community;
 import si.um.feri.aiv.vao.MSE;
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -16,13 +19,14 @@ public class MSEJSFBean implements Serializable {
     @Serial
     private static final long serialVersionUID = 1199069773058189490L;
     Logger log=Logger.getLogger(MSEJSFBean.class.toString());
-
+    private List<Community> communityList;
     private MSEDAO dao=new MSEMemoryDao();
-
+    @Inject
+    private MSEJSFBean mseJSFBean;
     private MSE selectedMSE=new MSE();
-
+    private String selectedCommunityName;
     private String selectedEmail;
-
+    private CommunityJSFBean communityJSFBean;
     public List<MSE> getAllMSEs() throws Exception {
         return dao.getAll();
     }
@@ -42,8 +46,10 @@ public class MSEJSFBean implements Serializable {
         newMSE.setYcoordinates(selectedMSE.getYcoordinates());
         newMSE.setCapacity(selectedMSE.getCapacity());
         dao.save(newMSE);
-        return "allmse";
+        return "editcommunities";
     }
+
+
     public void deleteMSE(MSE o) throws Exception {
         dao.delete(o.getEmail());
     }
@@ -58,7 +64,7 @@ public class MSEJSFBean implements Serializable {
         if (selectedMSE == null) {
             selectedMSE = new MSE();
         }
-        return "allmse";
+        return "editcommunities";
     }
     public String getSelectedEmail() {
         return selectedEmail;

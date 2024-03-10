@@ -13,23 +13,57 @@
                 <f:viewParam name="communityName" value="#{communityJSFBean.selectedCommunityName}" />
             </f:metadata>
 
-            <h:outputLabel value="Community Name:" for="communityName" />
-            <h:inputText id="communityName" value="#{communityJSFBean.selectedCommunity.communityName}" required="true" />
-            <br/>
+            <!-- Display all MSEs in a table -->
+            <h:dataTable value="#{mse.getAllMSEs()}" var="o">
+                <h:column>
+                    <h:outputText value="#{o.email}" />
+                </h:column>
+                <h:column>
+                    <h:outputText value="#{o.name}" />
+                </h:column>
+                <h:column>
+                    <h:outputText value="#{o.surname}" />
+                </h:column>
+                <h:column>
+                    <h:outputText value="#{o.xcoordinates}" />
+                </h:column>
+                <h:column>
+                    <h:outputText value="#{o.ycoordinates}" />
+                </h:column>
+                <h:column>
+                    <h:outputText value="#{o.capacity}" />
+                </h:column>
+                <h:column>
+                    <h:link value="Edit" outcome="editmse">
+                        <f:param name="email" value="#{o.email}" />
+                    </h:link> |
+                    <h:commandLink value="Delete" actionListener="#{mse.deleteMSE(o)}" />
+                </h:column>
+            </h:dataTable>
 
-            <h:outputLabel value="Boss Name:" for="bossName" />
-            <h:inputText id="bossName" value="#{communityJSFBean.selectedCommunity.bossName}" required="true" />
-            <br/>
+            <!-- Add MSE button -->
+            <h:commandButton value="Add MSE" action="#{communityJSFBean.openAddMSEPage}" />
 
-            <h:outputLabel value="Boss Surname:" for="bossSurname" />
-            <h:inputText id="bossSurname" value="#{communityJSFBean.selectedCommunity.bossSurname}" required="true" />
-            <br/>
+            <!-- Rest of your form -->
+            <div style="float:right;">
+                <h:outputLabel value="Community Name:" for="communityName" />
+                <h:inputText id="communityName" value="#{communityJSFBean.selectedCommunity.communityName}" required="true" />
+                <br/>
 
-            <h:outputLabel value="Boss Email:" for="bossEmail" />
-            <h:inputText id="bossEmail" value="#{communityJSFBean.selectedCommunity.bossEmail}" required="true" />
-            <br/>
+                <h:outputLabel value="Boss Name:" for="bossName" />
+                <h:inputText id="bossName" value="#{communityJSFBean.selectedCommunity.bossName}" required="true" />
+                <br/>
 
-            <h:commandButton value="Update" action="#{communityJSFBean.editCommunity}" />
+                <h:outputLabel value="Boss Surname:" for="bossSurname" />
+                <h:inputText id="bossSurname" value="#{communityJSFBean.selectedCommunity.bossSurname}" required="true" />
+                <br/>
+
+                <h:outputLabel value="Boss Email:" for="bossEmail" />
+                <h:inputText id="bossEmail" value="#{communityJSFBean.selectedCommunity.bossEmail}" required="true" />
+                <br/>
+
+                <h:commandButton value="Update" action="#{communityJSFBean.editCommunity}" />
+            </div>
         </h:form>
     </f:view>
 </h:body>

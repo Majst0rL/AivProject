@@ -14,6 +14,7 @@ public class Community {
 
     public Community(){this("",new ArrayList<>(),"","","");}
     public Community(String communityName, List<MSE> includedMSEs, String bossName, String bossSurname, String bossEmail) {
+
         this.communityName = communityName;
         this.includedMSEs = includedMSEs;
         this.bossName = bossName;
@@ -22,6 +23,7 @@ public class Community {
     }
 
     @NotBlank
+
     private String communityName;
     private List<MSE> includedMSEs;
     private String bossName;

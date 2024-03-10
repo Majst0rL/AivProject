@@ -4,10 +4,80 @@
 <h:head>
     <meta charset="UTF-8" />
     <title>Add Community</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        form label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        form input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        form button {
+            display: inline-block;
+            background-color: #007BFF;
+            color: #fff;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        form button:hover {
+            background-color: #0056b3;
+        }
+
+        a {
+            display: inline-block;
+            background-color: #007BFF;
+            color: #fff;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+
+        a:hover {
+            background-color: #0056b3;
+        }
+
+
+
+    </style>
 </h:head>
 
 <h:body>
     <f:view>
+        <a href="#{facesContext.externalContext.applicationContextPath}/faces/allcommunities.xhtml">BACK</a>
+        <hr />
         <h:form>
             <h:outputLabel value="Community Name:" for="communityName" />
             <h:inputText id="communityName" value="#{communityJSFBean.selectedCommunity.communityName}" required="true" />
@@ -23,13 +93,6 @@
 
             <h:outputLabel value="Founder Email:" for="founderEmail" />
             <h:inputText id="founderEmail" value="#{communityJSFBean.selectedCommunity.bossEmail}" required="true" />
-            <br/>
-
-            <h:outputLabel value="Select MSEs:" />
-            <h:selectManyCheckbox id="mseCheckboxes" value="#{communityJSFBean.selectedMSEs}">
-                <f:selectItems value="#{communityJSFBean.allMSEs}" var="mse"
-                               itemLabel="#{mse.email}" itemValue="#{mse}" />
-            </h:selectManyCheckbox>
             <br/>
 
             <h:commandButton value="Save" action="#{communityJSFBean.saveCommunity}" />
