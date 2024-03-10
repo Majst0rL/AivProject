@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <meta charset="UTF-8" />
+    <title>Add Community</title>
+</h:head>
+
+<h:body>
+    <f:view>
+        <h:form>
+            <h:outputLabel value="Community Name:" for="communityName" />
+            <h:inputText id="communityName" value="#{communityJSFBean.selectedCommunity.communityName}" required="true" />
+            <br/>
+
+            <h:outputLabel value="Community Founder Name:" for="founderName" />
+            <h:inputText id="founderName" value="#{communityJSFBean.selectedCommunity.bossName}" required="true" />
+            <br/>
+
+            <h:outputLabel value="Founder Surname:" for="founderSurname" />
+            <h:inputText id="founderSurname" value="#{communityJSFBean.selectedCommunity.bossSurname}" required="true" />
+            <br/>
+
+            <h:outputLabel value="Founder Email:" for="founderEmail" />
+            <h:inputText id="founderEmail" value="#{communityJSFBean.selectedCommunity.bossEmail}" required="true" />
+            <br/>
+
+            <h:outputLabel value="Select MSEs:" />
+            <h:selectManyCheckbox id="mseCheckboxes" value="#{communityJSFBean.selectedMSEs}">
+                <f:selectItems value="#{communityJSFBean.allMSEs}" var="mse"
+                               itemLabel="#{mse.email}" itemValue="#{mse}" />
+            </h:selectManyCheckbox>
+            <br/>
+
+            <h:commandButton value="Save" action="#{communityJSFBean.saveCommunity}" />
+        </h:form>
+    </f:view>
+</h:body>
+
+</html>
