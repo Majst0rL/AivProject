@@ -4,6 +4,60 @@
 <h:head>
     <meta charset="UTF-8" />
     <title>Edit Community</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+
+        form {
+            width: 100%;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        input[type="submit"], a {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border: none;
+            border-radius: 4px;
+        }
+
+        input[type="submit"]:hover, a:hover {
+            background-color: #45a049;
+        }
+
+        div {
+            margin-top: 20px;
+            width: 100%;
+        }
+
+    </style>
 </h:head>
 
 <h:body>
@@ -13,7 +67,9 @@
                 <f:viewParam name="communityName" value="#{communityJSFBean.selectedCommunityName}" />
             </f:metadata>
 
-            <!-- Display all MSEs in a table -->
+            <a href="#{facesContext.externalContext.applicationContextPath}/faces/allcommunities.xhtml">BACK</a>
+            <hr />
+
             <h:dataTable value="#{mse.getAllMSEs()}" var="o">
                 <h:column>
                     <h:outputText value="#{o.email}" />
@@ -41,10 +97,8 @@
                 </h:column>
             </h:dataTable>
 
-            <!-- Add MSE button -->
             <h:commandButton value="Add MSE" action="#{communityJSFBean.openAddMSEPage}" />
 
-            <!-- Rest of your form -->
             <div style="float:right;">
                 <h:outputLabel value="Community Name:" for="communityName" />
                 <h:inputText id="communityName" value="#{communityJSFBean.selectedCommunity.communityName}" required="true" />
