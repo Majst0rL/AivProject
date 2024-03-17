@@ -1,4 +1,5 @@
 package si.um.feri.aiv.jsf;
+import jakarta.ejb.Stateless;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -14,27 +15,19 @@ import java.util.logging.Logger;
 
 @Named("mse")
 @SessionScoped
+@Stateless
 public class MSEJSFBean implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1199069773058189490L;
     Logger log=Logger.getLogger(MSEJSFBean.class.toString());
-    private List<Community> communityList;
-    private MSEDAO dao=new MSEMemoryDao();
-    @Inject
-    private MSEJSFBean mseJSFBean;
+    private MSEDAO dao=MSEMemoryDao.getInstance();
     private MSE selectedMSE=new MSE();
-    private String selectedCommunityName;
     private String selectedEmail;
-    private CommunityJSFBean communityJSFBean;
     public List<MSE> getAllMSEs() throws Exception {
         return dao.getAll();
     }
 
-//    public String saveMSE() throws Exception {
-//        dao.save(selectedMSE);
-//        return "allmse";
-//    }
 
     public String saveMSE() throws Exception {
 

@@ -3,14 +3,21 @@ package si.um.feri.aiv.dao;
 import si.um.feri.aiv.vao.Community;
 import si.um.feri.aiv.vao.MSE;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
+
+
 public class MSEMemoryDao implements MSEDAO{
-    private List<MSE> mseList;
+    private List<MSE> mseList = Collections.synchronizedList(new ArrayList<MSE>());
     private Logger log = Logger.getLogger(MSEMemoryDao.class.getName());
 
-    public MSEMemoryDao() {
-        mseList = new ArrayList<>();
+    private static MSEMemoryDao instance=null;
+    public static synchronized MSEMemoryDao getInstance() {
+
+        if(instance==null) instance=new MSEMemoryDao();
+        return instance;
+
     }
 
     @Override

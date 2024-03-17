@@ -3,21 +3,28 @@ import si.um.feri.aiv.vao.Community;
 import si.um.feri.aiv.vao.MSE;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
 public class CommunityMemoryDao implements CommunityDao{
-    private List<Community> communityList;
+    private List<Community> communityList = Collections.synchronizedList(new ArrayList<Community>());
     private Logger log = Logger.getLogger(CommunityMemoryDao.class.getName());
     private List<MSE> mseList;
 
-    public CommunityMemoryDao() {
-        communityList = new ArrayList<>();
-        mseList = new ArrayList<>();
+    private static CommunityMemoryDao instance=null;
+    public static synchronized CommunityMemoryDao getInstance() {
+        if (instance == null) instance = new CommunityMemoryDao();
+        return instance;
     }
 
     @Override
     public void save(Community community) {
+        log.info("Adding community");
+        if(find(community.getCommunityName()) !=null){
+            log.info("DAO editing" + community);
+            delete(community.getCommunityName());
+        }
         communityList.add(community);
         log.info("Saved Community: " + community);
     }
