@@ -70,7 +70,7 @@
             <a href="#{facesContext.externalContext.applicationContextPath}/faces/allcommunities.xhtml">BACK</a>
             <hr />
 
-            <h:dataTable value="#{mse.getAllMSEs()}" var="o">
+            <h:dataTable value="#{communityJSFBean.selectedCommunity.includedMSEs}" var="o">
                 <h:column>
                     <h:outputText value="#{o.email}" />
                 </h:column>

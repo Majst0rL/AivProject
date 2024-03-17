@@ -39,6 +39,7 @@ public class CommunityJSFBean implements Serializable {
         newCommunity.setBossSurname(selectedCommunity.getBossSurname());
         newCommunity.setBossEmail(selectedCommunity.getBossEmail());
         dao.save(newCommunity);
+        selectedCommunity = new Community();
         return "allcommunities.xhtml?faces-redirect=true";
     }
 
@@ -59,13 +60,24 @@ public class CommunityJSFBean implements Serializable {
         return null;
     }
     public String editCommunity(){
-        selectedCommunity = dao.find(selectedCommunityName);
-        if (selectedCommunity == null){
-            selectedCommunity = new Community();
+        try {
+            selectedCommunity = dao.find(selectedCommunityName);
+            if (selectedCommunity == null){
+                selectedCommunity = new Community();
+            }
+            // Pridobite seznam vključenih MSE-jev za trenutno skupnost
+            selectedMSEs = selectedCommunity.getIncludedMSEs();
+        } catch (Exception e) {
+            // Obdelava morebitnih izjem
+            e.printStackTrace();
         }
-        return "allcommunities";
+        return "editcommunity"; // Poskrbite, da bo povratna pot pravilno usmerjena
     }
-    public String getSelectedCommunityName() {
+
+    public void updateCommunity() {
+        dao.update(selectedCommunity); // Assuming dao is your CommunityDAO instance
+    }
+        public String getSelectedCommunityName() {
             return selectedCommunityName;
         }
         public Community getSelectedCommunity() {

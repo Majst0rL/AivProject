@@ -1,21 +1,23 @@
 package si.um.feri.aiv.jsf;
 import jakarta.ejb.Stateless;
 import jakarta.enterprise.context.SessionScoped;
-import jakarta.inject.Inject;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named;
 import si.um.feri.aiv.dao.MSEMemoryDao;
 import si.um.feri.aiv.dao.MSEDAO;
-import si.um.feri.aiv.vao.Community;
 import si.um.feri.aiv.vao.MSE;
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
-
+import java.util.ArrayList;
+import jakarta.inject.Inject;
+import si.um.feri.aiv.vao.Community;
+import si.um.feri.aiv.dao.CommunityMemoryDao;
+import si.um.feri.aiv.jsf.CommunityJSFBean;
 @Named("mse")
 @SessionScoped
-@Stateless
 public class MSEJSFBean implements Serializable {
 
     @Serial
@@ -24,33 +26,65 @@ public class MSEJSFBean implements Serializable {
     private MSEDAO dao=MSEMemoryDao.getInstance();
     private MSE selectedMSE=new MSE();
     private String selectedEmail;
+    @Inject
+    private CommunityJSFBean communityBean;
     public List<MSE> getAllMSEs() throws Exception {
         return dao.getAll();
     }
 
 
-    public String saveMSE() throws Exception {
+//    public String saveMSE() throws Exception {
+//
+//        MSE newMSE = new MSE();
+//        newMSE.setEmail(selectedMSE.getEmail());
+//        newMSE.setName(selectedMSE.getName());
+//        newMSE.setSurname(selectedMSE.getSurname());
+//        newMSE.setXcoordinates(selectedMSE.getXcoordinates());
+//        newMSE.setYcoordinates(selectedMSE.getYcoordinates());
+//        newMSE.setCapacity(selectedMSE.getCapacity());
+//        dao.save(newMSE);
+//        return "editcommunities";
+//    }
 
-        MSE newMSE = new MSE();
-        newMSE.setEmail(selectedMSE.getEmail());
-        newMSE.setName(selectedMSE.getName());
-        newMSE.setSurname(selectedMSE.getSurname());
-        newMSE.setXcoordinates(selectedMSE.getXcoordinates());
-        newMSE.setYcoordinates(selectedMSE.getYcoordinates());
-        newMSE.setCapacity(selectedMSE.getCapacity());
-        dao.save(newMSE);
-        return "editcommunities";
+    // Inside MSEJSFBean class
+    public String saveMSE() {
+        try {
+            // Add MSE to the selected community
+            Community currentCommunity = communityBean.getSelectedCommunity();
+            currentCommunity.getIncludedMSEs().add(selectedMSE);
+
+            // Update the community with the new MSE
+            communityBean.updateCommunity(); // This calls the update method on CommunityJSFBean
+
+            // Show success message
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "MSE saved successfully."));
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "An error occurred while saving MSE."));
+            e.printStackTrace();
+        }
+
+        // Redirect back to edit community page
+        return "editcommunities.xhtml?faces-redirect=true&includeViewParams=true";
     }
-
-
     public void deleteMSE(MSE o) throws Exception {
         dao.delete(o.getEmail());
     }
 
     public void setSelectedEmail(String email) throws Exception {
-        selectedEmail = email;
-        selectedMSE = dao.find(email);
-        if(selectedMSE == null) selectedMSE = new MSE();
+        this.selectedEmail = email;
+        // Fetch the community to search its MSEs
+        Community currentCommunity = communityBean.getSelectedCommunity();
+        if(currentCommunity != null) {
+            for(MSE mse : currentCommunity.getIncludedMSEs()) {
+                if(mse.getEmail().equals(email)) {
+                    this.selectedMSE = mse;
+                    return; // Exit once the matching MSE is found
+                }
+            }
+        }
+        this.selectedMSE = new MSE(); // Reset if not found
     }
     public String editMSE() {
         selectedMSE = dao.find(selectedEmail);
