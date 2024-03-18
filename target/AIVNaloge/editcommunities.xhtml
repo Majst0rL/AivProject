@@ -99,6 +99,10 @@
 
             <h:commandButton value="Add MSE" action="#{communityJSFBean.openAddMSEPage}" />
 
+            <h:commandButton value="Calculate Total Capacity" action="#{communityJSFBean.calculateTotalCapacityForSelectedCommunity}" />
+
+            <h:outputText value="Total Capacity: #{communityJSFBean.totalCapacity}" style="margin-left: 20px;" />
+
             <div style="float:right;">
                 <h:outputLabel value="Community Name:" for="communityName" />
                 <h:inputText id="communityName" value="#{communityJSFBean.selectedCommunity.communityName}" required="true" />

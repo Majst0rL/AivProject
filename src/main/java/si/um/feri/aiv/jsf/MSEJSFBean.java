@@ -49,14 +49,18 @@ public class MSEJSFBean implements Serializable {
     // Inside MSEJSFBean class
     public String saveMSE() {
         try {
-            // Add MSE to the selected community
+            MSE newMSE = new MSE();
+            newMSE.setEmail(selectedMSE.getEmail());
+            newMSE.setName(selectedMSE.getName());
+            newMSE.setSurname(selectedMSE.getSurname());
+            newMSE.setXcoordinates(selectedMSE.getXcoordinates());
+            newMSE.setYcoordinates(selectedMSE.getYcoordinates());
+            newMSE.setCapacity(selectedMSE.getCapacity());
             Community currentCommunity = communityBean.getSelectedCommunity();
-            currentCommunity.getIncludedMSEs().add(selectedMSE);
+            currentCommunity.getIncludedMSEs().add(newMSE);
 
-            // Update the community with the new MSE
-            communityBean.updateCommunity(); // This calls the update method on CommunityJSFBean
+            communityBean.updateCommunity();
 
-            // Show success message
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "MSE saved successfully."));
         } catch (Exception e) {
@@ -65,7 +69,6 @@ public class MSEJSFBean implements Serializable {
             e.printStackTrace();
         }
 
-        // Redirect back to edit community page
         return "editcommunities.xhtml?faces-redirect=true&includeViewParams=true";
     }
     public void deleteMSE(MSE o) throws Exception {

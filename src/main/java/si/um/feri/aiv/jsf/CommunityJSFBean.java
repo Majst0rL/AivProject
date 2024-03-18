@@ -4,12 +4,15 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Logger;
+
+import jakarta.ejb.EJB;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.NavigationHandler;
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named;
 import si.um.feri.aiv.dao.CommunityDao;
 import si.um.feri.aiv.dao.CommunityMemoryDao;
+import si.um.feri.aiv.service.CapacityCalculatorLocal;
 import si.um.feri.aiv.vao.Community;
 import si.um.feri.aiv.vao.MSE;
 @Named("communityJSFBean")
@@ -25,7 +28,9 @@ public class CommunityJSFBean implements Serializable {
     private Community selectedCommunity = new Community();
     private String selectedCommunityName;
     private List<MSE> selectedMSEs;
-
+    @EJB
+    private CapacityCalculatorLocal capacityCalculator;
+    private long totalCapacity;
 
     public List<Community> getAllCommunities(){
         return dao.getAll();
@@ -43,15 +48,15 @@ public class CommunityJSFBean implements Serializable {
         return "allcommunities.xhtml?faces-redirect=true";
     }
 
-        public void deleteCommunity(Community o) throws Exception {
-            dao.delete(o.getCommunityName());
-        }
+    public void deleteCommunity(Community o) throws Exception {
+        dao.delete(o.getCommunityName());
+    }
 
-        public void setSelectedCommunityName(String communityName) throws Exception {
-            selectedCommunityName = communityName;
-            selectedCommunity = dao.find(communityName);
-            if(selectedCommunity == null) selectedCommunity = new Community();
-        }
+    public void setSelectedCommunityName(String communityName) throws Exception {
+        selectedCommunityName = communityName;
+        selectedCommunity = dao.find(communityName);
+        if(selectedCommunity == null) selectedCommunity = new Community();
+    }
 
     public String openAddMSEPage() {
         FacesContext facesContext = FacesContext.getCurrentInstance();
@@ -65,19 +70,28 @@ public class CommunityJSFBean implements Serializable {
             if (selectedCommunity == null){
                 selectedCommunity = new Community();
             }
-            // Pridobite seznam vključenih MSE-jev za trenutno skupnost
             selectedMSEs = selectedCommunity.getIncludedMSEs();
         } catch (Exception e) {
-            // Obdelava morebitnih izjem
             e.printStackTrace();
         }
-        return "editcommunity"; // Poskrbite, da bo povratna pot pravilno usmerjena
+        return "editcommunity";
+    }
+    public long getTotalCapacity() {
+        return totalCapacity;
+    }
+
+    public void setTotalCapacity(long totalCapacity) {
+        this.totalCapacity = totalCapacity;
+    }
+
+    public void calculateTotalCapacityForSelectedCommunity() {
+        this.totalCapacity = capacityCalculator.getTotalCapacityForCommunity(selectedCommunity.getCommunityName());
     }
 
     public void updateCommunity() {
-        dao.update(selectedCommunity); // Assuming dao is your CommunityDAO instance
+        dao.update(selectedCommunity);
     }
-        public String getSelectedCommunityName() {
+    public String getSelectedCommunityName() {
             return selectedCommunityName;
         }
         public Community getSelectedCommunity() {
