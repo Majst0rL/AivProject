@@ -33,20 +33,6 @@ public class MSEJSFBean implements Serializable {
     }
 
 
-//    public String saveMSE() throws Exception {
-//
-//        MSE newMSE = new MSE();
-//        newMSE.setEmail(selectedMSE.getEmail());
-//        newMSE.setName(selectedMSE.getName());
-//        newMSE.setSurname(selectedMSE.getSurname());
-//        newMSE.setXcoordinates(selectedMSE.getXcoordinates());
-//        newMSE.setYcoordinates(selectedMSE.getYcoordinates());
-//        newMSE.setCapacity(selectedMSE.getCapacity());
-//        dao.save(newMSE);
-//        return "editcommunities";
-//    }
-
-    // Inside MSEJSFBean class
     public String saveMSE() {
         try {
             MSE newMSE = new MSE();
@@ -65,7 +51,7 @@ public class MSEJSFBean implements Serializable {
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "MSE saved successfully."));
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "An error occurred while saving MSE."));
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error while saving MSE."));
             e.printStackTrace();
         }
 
