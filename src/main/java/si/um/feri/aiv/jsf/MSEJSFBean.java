@@ -7,6 +7,7 @@ import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named;
 import si.um.feri.aiv.dao.MSEMemoryDao;
 import si.um.feri.aiv.dao.MSEDAO;
+import si.um.feri.aiv.obs.EmailObserver;
 import si.um.feri.aiv.vao.MSE;
 import java.io.Serial;
 import java.io.Serializable;
@@ -20,7 +21,8 @@ import si.um.feri.aiv.jsf.CommunityJSFBean;
 @Named("mse")
 @SessionScoped
 public class MSEJSFBean implements Serializable {
-
+    @Inject
+    EmailObserver emailObserver;
     @Serial
     private static final long serialVersionUID = 1199069773058189490L;
     Logger log=Logger.getLogger(MSEJSFBean.class.toString());
@@ -43,11 +45,13 @@ public class MSEJSFBean implements Serializable {
             newMSE.setXcoordinates(selectedMSE.getXcoordinates());
             newMSE.setYcoordinates(selectedMSE.getYcoordinates());
             newMSE.setCapacity(selectedMSE.getCapacity());
+
             Community currentCommunity = communityBean.getSelectedCommunity();
+            currentCommunity.addObserver(emailObserver);
+
             currentCommunity.getIncludedMSEs().add(newMSE);
-
             communityBean.updateCommunity();
-
+            currentCommunity.notifyObservers();
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "MSE saved successfully."));
         } catch (Exception e) {

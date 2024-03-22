@@ -14,7 +14,7 @@ import si.um.feri.aiv.vao.MSE;
 public class CapacityCalculatorBean implements CapacityCalculatorRemote, CapacityCalculatorLocal {
 
     @EJB
-    private CommunityMemoryDao communityDao;
+    private CommunityDao communityDao;
 
     @Override
     public long getTotalCapacityForCommunity(String communityName) {

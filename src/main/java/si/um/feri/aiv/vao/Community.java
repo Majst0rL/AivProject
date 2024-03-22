@@ -6,12 +6,15 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import si.um.feri.aiv.obs.Observable;
+import si.um.feri.aiv.obs.Observer;
 
 @Getter
 @Setter
 @ToString
-public class Community {
+public class Community implements Observable {
 
+    private List<Observer> observers = new ArrayList<>();
     public Community(){this("",new ArrayList<>(),"","","");}
     public Community(String communityName, List<MSE> includedMSEs, String bossName, String bossSurname, String bossEmail) {
 
@@ -30,4 +33,18 @@ public class Community {
     private String bossSurname;
     private String bossEmail;
 
+    @Override
+    public void addObserver(Observer o) {
+        observers.add(o);
+    }
+    @Override
+    public void removeObserver(Observer o) {
+        observers.remove(o);
+    }
+    @Override
+    public void notifyObservers() {
+        for (Observer observer : observers) {
+            observer.update(this);
+        }
+    }
 }
