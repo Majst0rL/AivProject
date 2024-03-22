@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import jakarta.ejb.EJB;
+import jakarta.ejb.Stateless;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.NavigationHandler;
 import jakarta.faces.context.FacesContext;
@@ -22,8 +23,8 @@ public class CommunityJSFBean implements Serializable {
     @Serial
     private static final long serialVersionUID = 5130344131631106204L;
     Logger log=Logger.getLogger(CommunityJSFBean.class.toString());
-
-    private CommunityDao dao = CommunityMemoryDao.getInstance();
+    @EJB
+    private CommunityDao dao;
 
     private Community selectedCommunity = new Community();
     private String selectedCommunityName;

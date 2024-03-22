@@ -1,4 +1,7 @@
 package si.um.feri.aiv.dao;
+import jakarta.ejb.Local;
+import jakarta.ejb.Stateless;
+import si.um.feri.aiv.service.CapacityCalculatorLocal;
 import si.um.feri.aiv.vao.Community;
 import si.um.feri.aiv.vao.MSE;
 
@@ -7,16 +10,17 @@ import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
-public class CommunityMemoryDao implements CommunityDao{
+@Stateless
+public class CommunityMemoryDao implements CommunityDao {
     private List<Community> communityList = Collections.synchronizedList(new ArrayList<Community>());
     private Logger log = Logger.getLogger(CommunityMemoryDao.class.getName());
     private List<MSE> mseList;
 
-    private static CommunityMemoryDao instance=null;
-    public static synchronized CommunityMemoryDao getInstance() {
-        if (instance == null) instance = new CommunityMemoryDao();
-        return instance;
-    }
+//    private static CommunityMemoryDao instance=null;
+//    public static synchronized CommunityMemoryDao getInstance() {
+//        if (instance == null) instance = new CommunityMemoryDao();
+//        return instance;
+//    }
 
     @Override
     public void save(Community community) {
@@ -89,4 +93,16 @@ public class CommunityMemoryDao implements CommunityDao{
         log.info("Retrieved all MSEs");
         return mseList;
     }
+
+//    @Override
+//    public long getTotalCapacityForCommunity(String communityName) {
+//        long totalCapacity = 0;
+//        Community community = communityDao.find(communityName);
+//        if (community != null) {
+//            for (MSE mse : community.getIncludedMSEs()) {
+//                totalCapacity += mse.getCapacity();
+//            }
+//        }
+//        return totalCapacity;
+//    }
 }

@@ -1,5 +1,6 @@
 package si.um.feri.aiv.dao;
 
+import jakarta.ejb.Stateless;
 import si.um.feri.aiv.vao.Community;
 import si.um.feri.aiv.vao.MSE;
 import java.util.ArrayList;
@@ -7,18 +8,20 @@ import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
-
+@Stateless
 public class MSEMemoryDao implements MSEDAO{
     private List<MSE> mseList = Collections.synchronizedList(new ArrayList<MSE>());
     private Logger log = Logger.getLogger(MSEMemoryDao.class.getName());
 
-    private static MSEMemoryDao instance=null;
-    public static synchronized MSEMemoryDao getInstance() {
+//    private static MSEMemoryDao instance=null;
+//    public static synchronized MSEMemoryDao getInstance() {
+//
+//        if(instance==null) instance=new MSEMemoryDao();
+//        return instance;
+//
+//    }
 
-        if(instance==null) instance=new MSEMemoryDao();
-        return instance;
 
-    }
 
     @Override
     public void save(MSE mse) {

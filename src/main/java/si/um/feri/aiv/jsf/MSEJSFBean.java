@@ -1,4 +1,5 @@
 package si.um.feri.aiv.jsf;
+import jakarta.ejb.EJB;
 import jakarta.ejb.Stateless;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
@@ -23,7 +24,8 @@ public class MSEJSFBean implements Serializable {
     @Serial
     private static final long serialVersionUID = 1199069773058189490L;
     Logger log=Logger.getLogger(MSEJSFBean.class.toString());
-    private MSEDAO dao=MSEMemoryDao.getInstance();
+    @EJB
+    private MSEDAO dao;
     private MSE selectedMSE=new MSE();
     private String selectedEmail;
     @Inject
@@ -32,21 +34,6 @@ public class MSEJSFBean implements Serializable {
         return dao.getAll();
     }
 
-
-//    public String saveMSE() throws Exception {
-//
-//        MSE newMSE = new MSE();
-//        newMSE.setEmail(selectedMSE.getEmail());
-//        newMSE.setName(selectedMSE.getName());
-//        newMSE.setSurname(selectedMSE.getSurname());
-//        newMSE.setXcoordinates(selectedMSE.getXcoordinates());
-//        newMSE.setYcoordinates(selectedMSE.getYcoordinates());
-//        newMSE.setCapacity(selectedMSE.getCapacity());
-//        dao.save(newMSE);
-//        return "editcommunities";
-//    }
-
-    // Inside MSEJSFBean class
     public String saveMSE() {
         try {
             MSE newMSE = new MSE();
@@ -75,15 +62,16 @@ public class MSEJSFBean implements Serializable {
         dao.delete(o.getEmail());
     }
 
+    //Searching for adding mse
     public void setSelectedEmail(String email) throws Exception {
         this.selectedEmail = email;
-        // Fetch the community to search its MSEs
+        //fetching communitia
         Community currentCommunity = communityBean.getSelectedCommunity();
         if(currentCommunity != null) {
             for(MSE mse : currentCommunity.getIncludedMSEs()) {
                 if(mse.getEmail().equals(email)) {
                     this.selectedMSE = mse;
-                    return; // Exit once the matching MSE is found
+                    return;
                 }
             }
         }
