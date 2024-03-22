@@ -52,7 +52,7 @@ public class MSEJSFBean implements Serializable {
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "MSE saved successfully."));
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "An error occurred while saving MSE."));
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Error while saving MSE."));
             e.printStackTrace();
         }
 
