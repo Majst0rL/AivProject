@@ -13,7 +13,7 @@ import jakarta.mail.internet.MimeMessage;
 
 @ApplicationScoped
 public class EmailObserver implements Observer{
-    @Resource(lookup = "java:jboss/mail/Default")
+    @Resource(lookup = "java:jboss/mail/StudMail")
     private Session mailSession;
 
     @Override

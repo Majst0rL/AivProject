@@ -39,6 +39,7 @@ public class MSEJSFBean implements Serializable {
     public String saveMSE() {
         try {
             MSE newMSE = new MSE();
+
             newMSE.setEmail(selectedMSE.getEmail());
             newMSE.setName(selectedMSE.getName());
             newMSE.setSurname(selectedMSE.getSurname());
@@ -47,6 +48,7 @@ public class MSEJSFBean implements Serializable {
             newMSE.setCapacity(selectedMSE.getCapacity());
 
             Community currentCommunity = communityBean.getSelectedCommunity();
+
             currentCommunity.addObserver(emailObserver);
 
             currentCommunity.getIncludedMSEs().add(newMSE);
@@ -66,7 +68,6 @@ public class MSEJSFBean implements Serializable {
         dao.delete(o.getEmail());
     }
 
-    //Searching for adding mse
     public void setSelectedEmail(String email) throws Exception {
         this.selectedEmail = email;
         //fetching communitia
