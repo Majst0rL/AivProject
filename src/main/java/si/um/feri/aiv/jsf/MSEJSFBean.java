@@ -1,23 +1,18 @@
 package si.um.feri.aiv.jsf;
 import jakarta.ejb.EJB;
-import jakarta.ejb.Stateless;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named;
-import si.um.feri.aiv.dao.MSEMemoryDao;
-import si.um.feri.aiv.dao.MSEDAO;
+import si.um.feri.aiv.dao.MSEDaoJPA;
 import si.um.feri.aiv.obs.EmailObserver;
 import si.um.feri.aiv.vao.MSE;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Logger;
-import java.util.ArrayList;
 import jakarta.inject.Inject;
 import si.um.feri.aiv.vao.Community;
-import si.um.feri.aiv.dao.CommunityMemoryDao;
-import si.um.feri.aiv.jsf.CommunityJSFBean;
 @Named("mse")
 @SessionScoped
 public class MSEJSFBean implements Serializable {
@@ -27,7 +22,7 @@ public class MSEJSFBean implements Serializable {
     private static final long serialVersionUID = 1199069773058189490L;
     Logger log=Logger.getLogger(MSEJSFBean.class.toString());
     @EJB
-    private MSEDAO dao;
+    private MSEDaoJPA dao;
     private MSE selectedMSE=new MSE();
     private String selectedEmail;
     @Inject
@@ -49,11 +44,11 @@ public class MSEJSFBean implements Serializable {
 
             Community currentCommunity = communityBean.getSelectedCommunity();
 
-            currentCommunity.addObserver(emailObserver);
+//            currentCommunity.addObserver(emailObserver);
 
             currentCommunity.getIncludedMSEs().add(newMSE);
             communityBean.updateCommunity();
-            currentCommunity.notifyObservers();
+//            currentCommunity.notifyObservers();
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "MSE saved successfully."));
         } catch (Exception e) {

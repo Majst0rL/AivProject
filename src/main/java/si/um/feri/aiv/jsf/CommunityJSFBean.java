@@ -11,8 +11,7 @@ import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.NavigationHandler;
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named;
-import si.um.feri.aiv.dao.CommunityDao;
-import si.um.feri.aiv.dao.CommunityMemoryDao;
+import si.um.feri.aiv.dao.CommunityDaoJPA;
 import si.um.feri.aiv.service.CapacityCalculatorLocal;
 import si.um.feri.aiv.vao.Community;
 import si.um.feri.aiv.vao.MSE;
@@ -24,7 +23,7 @@ public class CommunityJSFBean implements Serializable {
     private static final long serialVersionUID = 5130344131631106204L;
     Logger log=Logger.getLogger(CommunityJSFBean.class.toString());
     @EJB
-    private CommunityDao dao;
+    private CommunityDaoJPA dao;
 
     private Community selectedCommunity = new Community();
     private String selectedCommunityName;
